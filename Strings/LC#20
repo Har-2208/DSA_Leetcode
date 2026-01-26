@@ -1,0 +1,43 @@
+#include <stdbool.h>
+#include <string.h>
+
+char stack[10000];
+int top = -1;
+
+int isEmpty() {
+    return top == -1;
+}
+
+void push(char x) {
+    stack[++top] = x;
+}
+
+char pop() {
+    return stack[top--];
+}
+
+bool isValid(char* s) {
+    top = -1;  // reset stack for each test case
+
+    for (int i = 0; i < strlen(s); i++) {
+        char ch = s[i];
+
+        // If opening bracket → push
+        if (ch == '(' || ch == '{' || ch == '[') {
+            push(ch);
+        }
+        // If closing bracket → check match
+        else {
+            if (isEmpty()) return false;  // nothing to match
+
+            char topChar = pop();
+
+            if (ch == ')' && topChar != '(') return false;
+            if (ch == '}' && topChar != '{') return false;
+            if (ch == ']' && topChar != '[') return false;
+        }
+    }
+
+    // If stack still has elements → unmatched openings
+    return isEmpty();
+}
