@@ -1,0 +1,56 @@
+#include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
+
+bool wordPattern(char *pattern, char *s) {
+    char *map[26] = {NULL};     // pattern -> word
+    char *used[1000] = {NULL};  // list of used words
+    char temp[1000];
+    int usedCount = 0;
+
+    int pLen = strlen(pattern);
+    int i = 0, pIndex = 0;
+
+    while (*s) {
+        // Extract one word
+        int k = 0;
+        while (*s && *s != ' ') {
+            temp[k++] = *s;
+            s++;
+        }
+        temp[k] = '\0';
+
+        if (pIndex >= pLen) return false;  // More words than pattern letters
+
+        char ch = pattern[pIndex];
+        int idx = ch - 'a';
+
+        // If pattern char not mapped yet
+        if (map[idx] == NULL) {
+            // Check if word already used by another pattern char
+            for (int u = 0; u < usedCount; u++) {
+                if (strcmp(used[u], temp) == 0) {
+                    return false;
+                }
+            }
+
+            map[idx] = strdup(temp);  // store mapping
+            used[usedCount++] = map[idx];
+        }
+        else {
+            // Pattern already mapped — must match
+            if (strcmp(map[idx], temp) != 0) {
+                return false;
+            }
+        }
+
+        pIndex++;
+
+        if (*s == ' ') s++;  // Skip space
+    }
+
+    // If pattern still has letters left
+    if (pIndex != pLen) return false;
+
+    return true;
+}
