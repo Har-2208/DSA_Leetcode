@@ -1,0 +1,27 @@
+bool isIsomorphic(char* s, char* t) {
+    int len1 = strlen(s);
+    int len2 = strlen(t);
+
+    int mapST[256] = {0};
+    int mapTS[256] = {0};
+
+    if(len1!=len2){
+        return false;
+    }
+
+    char c1, c2;
+
+    for(int i=0; i<len1; i++){
+        c1 = s[i];
+        c2 = t[i];
+
+        if(mapST[c1]==0 && mapTS[c2]==0){
+            mapST[c1] = c2;
+            mapTS[c2] = c1;
+        }
+        else if(mapST[c1]!=c2 || mapTS[c2]!=c1){
+            return false;
+        }
+    }
+    return true;
+}
