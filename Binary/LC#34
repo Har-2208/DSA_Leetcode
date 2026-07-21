@@ -1,0 +1,54 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int lowerbound(int* nums, int numsSize, int target){
+    int l=0; 
+    int h = numsSize-1;
+    int ans = numsSize;
+
+    while(l<=h){
+        int mid = (l+h)/2;
+        if(nums[mid]>=target){
+            ans = mid;
+            h = mid - 1;
+        }
+        else{
+            l = mid+1;
+        }
+    }
+    return ans;
+}
+
+int upperbound(int* nums, int numsSize, int target){
+    int l=0; 
+    int h = numsSize-1;
+    int ans = numsSize;
+
+    while(l<=h){
+        int mid = (l+h)/2;
+        if(nums[mid]>target){
+            ans = mid;
+            h = mid - 1;
+        }
+        else{
+            l = mid+1;
+        }
+    }
+    return ans;
+}
+
+int* searchRange(int* nums, int numsSize, int target, int* returnSize) {
+    *returnSize = 2;
+    int *result = (int *)malloc(2 * sizeof(int));
+    int lb = lowerbound(nums, numsSize, target);
+
+    if(lb == numsSize || nums[lb]!= target){
+        result[0] = -1;
+        result[1] = -1;
+        return result;
+    }
+
+    result[0] = lb;
+    result[1] = upperbound(nums, numsSize, target)-1;
+    return result;
+}
