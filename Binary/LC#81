@@ -1,0 +1,38 @@
+#include <stdbool.h>
+
+bool search(int* a, int numsSize, int target) {
+    int low = 0;
+    int high = numsSize - 1;
+
+    while(low<=high){
+        int mid = (low+high)/2;
+
+        if(a[mid]==target){
+            return true;
+        }
+        if(a[mid] == a[high] && a[mid] == a[low]){
+            low++;
+            high--;
+            continue;
+        }
+
+        if(a[low] <= a[mid]){
+            if(a[low] <= target && a[mid] >= target){
+                high = mid - 1;
+            }
+            else{
+                low = mid + 1;
+            }
+        }
+        else{
+            if(a[high]>=target && a[mid]<=target){
+                low = mid + 1;
+            }
+            else{
+                high = mid - 1;
+            }
+        }
+    }
+
+    return false;
+}
