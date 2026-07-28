@@ -1,0 +1,21 @@
+
+
+int findMin(int* nums, int numsSize) {
+    int low = 0;
+    int high = numsSize -1;
+    int res = INT_MAX;
+    int mid;
+
+    while(low<=high){
+        mid = (low+high)/2;
+        if(nums[low] <= nums[mid]){
+            res = res < nums[low] ? res : nums[low];
+            low = mid + 1;
+        }
+        else{
+            res = res < nums[mid] ? res : nums[mid];
+            high = mid - 1;
+        }
+    }
+    return res;
+}
