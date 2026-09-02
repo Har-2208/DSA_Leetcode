@@ -1,0 +1,41 @@
+long long find_k(int* arr, int hour, int n){
+   long long totalHrs = 0;
+
+    for(int i=0; i<n; i++){
+        totalHrs += ceil((double)arr[i] / (double)hour);
+    }
+
+    return totalHrs;
+}
+
+int minEatingSpeed(int* piles, int pilesSize, int h) {
+    
+int low = 1;
+int high = piles[0];
+int mid = 0;
+
+for(int i=0; i<pilesSize; i++){
+    if(piles[i] > high){
+        high = piles[i];
+    }
+}
+
+long long tH;
+int ans = INT_MAX;
+
+while(low<=high){
+    int mid = low + (high - low) / 2;
+    tH = find_k(piles,mid,pilesSize);
+
+    if(tH <= h){
+        ans = mid;
+        high = mid-1;
+    }
+    else{
+        low = mid+1;
+    }
+}
+
+    return ans;
+}
+
